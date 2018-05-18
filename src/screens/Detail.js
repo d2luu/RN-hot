@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {View, Text, StyleSheet, Image, Dimensions} from 'react-native';
+import {View, Text, StyleSheet, Image, Dimensions, ScrollView} from 'react-native';
 import { Button } from 'react-native-elements';
 
 export default class Detail extends Component {
@@ -8,11 +8,11 @@ export default class Detail extends Component {
   };
   render() {
     return (
-      <View style={detail.container}>
+      <ScrollView contentContainerStyle={detail.container}>
         <Image
-          style={StyleSheet.absoluteFillObject}
+          style={[StyleSheet.absoluteFillObject]}
           resizeMode='cover'
-          source={{uri: "https://images.pexels.com/photos/356378/pexels-photo-356378.jpeg?auto=compress&cs=tinysrgb&h=350"}}
+          source={{uri: "https://fthmb.tqn.com/Kd_2rehtlDZwUzmpYT4ZWCDCysA=/768x0/filters:no_upscale():max_bytes(150000):strip_icc()/lost-dog-58b8c9475f9b58af5c8c7aec.jpg"}}
         >
         </Image>
         <View style={detail.overlay} />
@@ -22,20 +22,20 @@ export default class Detail extends Component {
           title={"Back to Home"}
           onPress={this.handlePress}
         />
-      </View>
+      </ScrollView>
     );
   }
 }
 const detail = StyleSheet.create({
   container: {
-    flex: 1,
+    flexGrow: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'pink'
+    backgroundColor: 'rgba(0,0,10,0.1)'
   },
   button: {
-    backgroundColor: "rgba(0,0,0,0.2)",
-    marginTop: Dimensions.get("window").height * 0.6,
+    backgroundColor: "rgba(0,0,10,0.5)",
+    marginTop: Dimensions.get("window").height * 0.7,
     height: 45,
     borderColor: "transparent",
     borderWidth: 0,

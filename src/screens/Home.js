@@ -28,7 +28,7 @@ export default class Home extends Component {
       <ScrollView
         contentContainerStyle={home.container}
       >
-        <TextInput
+        {/*<TextInput
           style={{
             marginTop: 20,
             height: 40,
@@ -97,7 +97,7 @@ export default class Home extends Component {
         />
         <Text style={home.text}>
           {this.state.textInput}
-        </Text>
+        </Text>*/}
         <Image
           style={StyleSheet.absoluteFillObject}
           resizeMode='cover'
@@ -105,7 +105,7 @@ export default class Home extends Component {
         >
         </Image>
         <View style={home.overlay} />
-        <View style={{flex: 1, flexDirection: 'row'}}>
+        <View style={{flex: 1, flexDirection: 'row', paddingTop: screeHeight * 0.7}}>
           <Button
             buttonStyle={home.button}
             title={"Go to Detail"}

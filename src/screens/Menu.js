@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import {Icon} from 'react-native-elements';
 
 export default class Menu extends Component {
   render() {
     return (
       <View style={menu.container}>
-        <Text>
+        <Icon name='menu' size={30} color={'black'} />
+        <Text style={{color: 'black', fontSize: 30}}>
           Menu
         </Text>
       </View>

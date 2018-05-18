@@ -4,6 +4,7 @@ import Home from './screens/Home';
 import DogList from './screens/DogList';
 import Detail from './screens/Detail';
 import Menu from './screens/Menu';
+import {Icon} from 'react-native-elements';
 
 export const HomeStack = StackNavigator({
   Home_Screen: {
@@ -35,13 +36,15 @@ export const BottomBar = TabNavigator(
   Home: {
     screen: HomeStack,
     navigationOptions: {
-      tabBarLabel: 'HOME'
+      tabBarLabel: 'HOME',
+      tabBarIcon: ({tintColor}) => <Icon name='home' size={30} color={tintColor}/>
     }
   },
   User: {
     screen: UserStack,
     navigationOptions: {
-      tabBarLabel: 'DOG LIST'
+      tabBarLabel: 'DOG LIST',
+      tabBarIcon: ({tintColor}) => <Icon name='list' size={30} color={tintColor}/>
     }
   }
 },
@@ -58,13 +61,14 @@ export const BottomBar = TabNavigator(
 });
 
 export const SideMenu = DrawerNavigator(
-{
-  Tabbar: {
-    screen: BottomBar
+  {
+    Tabbar: {
+      screen: BottomBar
+    }
+  },
+  {
+    drawerWidth: 300,
+    drawerPosition: 'left',
+    contentComponent: props => <Menu {...props}/>
   }
-},
-{
-  drawerWidth: 300,
-  drawerPosition: 'left',
-  contentComponent: props => <Menu {...props}/>
-});
+);

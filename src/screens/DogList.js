@@ -4,21 +4,19 @@ import { View, Text, StyleSheet, FlatList, Image, ScrollView, Alert, Platform,
 import flatListData from '../data/flatListData';
 import Swiptout from 'react-native-swipeout';
 import AddModal from './AddModal';
+import EditModal from './EditModal';
 
 export default class DogList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      deletedRowKey: null
+      deletedRowKey: null,
     };
     this._handlePress = this._handlePress.bind(this);
   }
 
   _handlePress() {
     this.refs.addModal.showAddModal();
-  }
-
-  componentDidMount() {
   }
 
   refreshFlatList = (activeKey) => {
@@ -60,9 +58,12 @@ export default class DogList extends Component {
           }}
         >
         </FlatList>
-        <AddModal ref={"addModal"} parentFlatList={this}>
 
+        <AddModal ref={"addModal"} parentFlatList={this}>
         </AddModal>
+
+        <EditModal ref={'editModal'} parentFlatList={this}>
+        </EditModal>
       </View>
     );
   }
@@ -71,9 +72,16 @@ export class FlatListItem extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeRowKey: null
+      activeRowKey: null,
+      numOfRefresh: 0      
     }
   }
+
+  refreshFlatListItem = () => {
+    this.setState((prevState) => {
+      return {numOfRefresh: prevState.numOfRefresh + 1}
+    });
+  };
 
   render() {
     const swipeSetting = {
@@ -86,24 +94,31 @@ export class FlatListItem extends Component {
       onOpen: (secId, rowId, direction) => {
         this.setState({activeRowKey: this.props.item.key});
       },
-      right: [{
-        onPress: () => {
-          const deletingRow = this.state.activeRowKey;
-          Alert.alert(
-            'Alert',
-            'Are you sure you want to delete?',
-            [
-              {text: 'No', onPress: () => console.log("Cancel Pressed"), style: 'cancel'},
-              {text: 'Yes', onPress: () => {
-                  flatListData.splice(this.props.index, 1);
-                  this.props.parentFlatList.refreshFlatList(deletingRow);
-                }
-              }
-            ],
-            {cancelable: false}
-          );
+      right: [
+        {
+          onPress: () => {
+            this.props.parentFlatList.refs.editModal.showEditModal(flatListData[this.props.index], this)
+          },
+          text: 'Edit', type: 'primary'
         },
-        text: 'Delete', type: 'delete'
+        {
+          onPress: () => {
+            const deletingRow = this.state.activeRowKey;
+            Alert.alert(
+              'Alert',
+              'Are you sure you want to delete?',
+              [
+                {text: 'No', onPress: () => console.log("Cancel Pressed"), style: 'cancel'},
+                {text: 'Yes', onPress: () => {
+                    flatListData.splice(this.props.index, 1);
+                    this.props.parentFlatList.refreshFlatList(deletingRow);
+                  }
+                }
+              ],
+              {cancelable: false}
+            );
+        },
+          text: 'Delete', type: 'delete'
       }],
       rowId: this.props.index,
       sectionID: 1
@@ -115,7 +130,11 @@ export class FlatListItem extends Component {
             style={{
               flex: 1,
               flexDirection: "row",
-              backgroundColor: this.props.index %2 === 0 ? "mediumseagreen" : "tomato",
+              backgroundColor: "rgba(255,255,255,0.1)",
+              borderColor: "transparent",
+              borderWidth: 0,
+              borderRadius: 5,
+              shadowOpacity: 0.5,
             }}
           >
             <Image
@@ -124,7 +143,7 @@ export class FlatListItem extends Component {
             />
 
             <ScrollView style={user.flatItem} >
-              <Text style={user.flastListItem} children={this.props.item.name}/>
+              <Text style={user.dogName} children={this.props.item.name}/>
               <Text style={user.flastListItem} children={this.props.item.country}/>
             </ScrollView>
           </View>
@@ -141,7 +160,7 @@ const user = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'stretch',
-    backgroundColor: 'skyblue',
+    backgroundColor: 'white',
   },
   text: {
     fontSize: 30,
@@ -151,15 +170,22 @@ const user = StyleSheet.create({
     flex: 1,
   },
   flastListItem: {
-    color: "white",
+    color: "black",
     padding: 10,
     fontSize: 15,
-    alignItems: "stretch"
+    alignItems: "stretch",
+  },
+  dogName: {
+    color: "black",
+    padding: 10,
+    fontSize: 15,
+    alignItems: "stretch",
+    fontWeight: 'bold'
   },
   flatItem: {
     flex: 1,
     flexDirection: "column",
-    height: 100
+    height: 100,
   },
   list: {
     backgroundColor: 'white',
