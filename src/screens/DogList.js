@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, Text, StyleSheet, FlatList, Image, ScrollView, Alert, Platform,
           TouchableHighlight } from 'react-native';
 import flatListData from '../data/flatListData';
-import Swiptout from 'react-native-swipeout';
+import Swipeout from 'react-native-swipeout';
 import AddModal from './AddModal';
 import EditModal from './EditModal';
 
@@ -13,10 +13,12 @@ export default class DogList extends Component {
       deletedRowKey: null,
     };
     this._handlePress = this._handlePress.bind(this);
+    this.addModal = React.createRef();
+    this.editModal = React.createRef();
   }
 
   _handlePress() {
-    this.refs.addModal.showAddModal();
+    this.addModal.current.showAddModal();
   }
 
   refreshFlatList = (activeKey) => {
@@ -27,18 +29,22 @@ export default class DogList extends Component {
   };
 
   render() {
+    let touchableHighlightSetting = {
+      style: {marginRight: 10, borderRadius: 16, shadowOpacity: 0.5,},
+      underlayColor: "gray",
+      onPress: this._handlePress
+    }
     return (
       <View style={user.container}>
         <View style={user.list}>
-          <TouchableHighlight
-            style={{marginRight: 10, borderRadius: 16, shadowOpacity: 0.5,}}
-            underlayColor="skyblue"
-            onPress={this._handlePress}
-          >
+          <TouchableHighlight {...touchableHighlightSetting}>
             <Image
               style={{width: 45, height: 45}}
               source={require("../img/btn-add.png")}
             />
+            {/* <Text>
+              Add new dog
+            </Text> */}
           </TouchableHighlight>
         </View>
         <FlatList
@@ -51,23 +57,24 @@ export default class DogList extends Component {
                 item={item}
                 index={index}
                 parentFlatList={this}
-              >
-
-              </FlatListItem>
+              />
             )
           }}
+          keyExtractor={(item, index) => index.toString()}
         >
         </FlatList>
 
-        <AddModal ref={"addModal"} parentFlatList={this}>
+        <AddModal ref={this.addModal} parentFlatList={this}>
         </AddModal>
 
-        <EditModal ref={'editModal'} parentFlatList={this}>
+        <EditModal ref={this.editModal} parentFlatList={this}>
         </EditModal>
       </View>
     );
   }
 }
+
+
 export class FlatListItem extends Component {
   constructor(props) {
     super(props);
@@ -97,7 +104,7 @@ export class FlatListItem extends Component {
       right: [
         {
           onPress: () => {
-            this.props.parentFlatList.refs.editModal.showEditModal(flatListData[this.props.index], this)
+            this.props.parentFlatList.editModal.current.showEditModal(flatListData[this.props.index], this)
           },
           text: 'Edit', type: 'primary'
         },
@@ -105,11 +112,11 @@ export class FlatListItem extends Component {
           onPress: () => {
             const deletingRow = this.state.activeRowKey;
             Alert.alert(
-              'Alert',
-              'Are you sure you want to delete?',
+              '警報',
+              '消去してもよろしいですか?',
               [
-                {text: 'No', onPress: () => console.log("Cancel Pressed"), style: 'cancel'},
-                {text: 'Yes', onPress: () => {
+                {text: 'いいえ', onPress: () => console.log("Cancel Pressed"), style: 'cancel'},
+                {text: 'はい', onPress: () => {
                     flatListData.splice(this.props.index, 1);
                     this.props.parentFlatList.refreshFlatList(deletingRow);
                   }
@@ -124,7 +131,7 @@ export class FlatListItem extends Component {
       sectionID: 1
     };
     return(
-      <Swiptout {...swipeSetting}>
+      <Swipeout {...swipeSetting}>
         <View style={{flexDirection: 'column', flex: 1}}>
           <View
             style={{
@@ -150,7 +157,7 @@ export class FlatListItem extends Component {
 
           <View style={{height: 2, backgroundColor: "white"}} />
         </View>
-      </Swiptout>
+      </Swipeout>
     )
   }
 }

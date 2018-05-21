@@ -9,11 +9,11 @@ let screen = Dimensions.get("window");
 export default class AddModal extends Component {
   constructor(props) {
     super(props);
-    this.showAddModal = this.showAddModal.bind(this)
     this.state = {
       newDog: '',
       description: ''
     }
+    this.showAddModal = this.showAddModal.bind(this)    
   }
 
   generateKey = (numberOfChar) => {
@@ -28,13 +28,7 @@ export default class AddModal extends Component {
     return(
       <Modal
         ref={"myModal"}
-        style={{
-          justifyContent: 'center',
-          borderRadius: Platform.OS === "ios" ? 30 : 0,
-          shadowRadius: 10,
-          width: screen.width - 80,
-          height: 280,
-        }}
+        style={modal.container}
         position={'center'}
         backdrop={true}
         onClosed = {() => {
@@ -61,10 +55,9 @@ export default class AddModal extends Component {
           style={{fontSize: 18, color: 'white'}}
           containerStyle={modal.btn}
           onPress={() => {
-            if (this.state.newDog.length === 0 ||
-              this.state.description.length === 0) {
+            if (this.state.newDog.length === 0 || this.state.description.length === 0) {
               alert("You must enter Dog name and description!");
-              return;
+              return
             }
             const newKey = this.generateKey(4);
             const newDog = {
@@ -73,7 +66,6 @@ export default class AddModal extends Component {
               imageUrl: 'https://www.cesarsway.com/sites/newcesarsway/files/styles/large_article_preview/public/Natural-Dog-Law-2-To-dogs%2C-energy-is-everything.jpg?itok=Z-ujUOUr',
               country: this.state.description
             };
-            // console.log(flatListData);
             flatListData.push(newDog);
             this.props.parentFlatList.refreshFlatList(newKey)
             this.refs.myModal.close();
@@ -88,6 +80,13 @@ export default class AddModal extends Component {
 }
 
 const modal = StyleSheet.create({
+  container: {
+    justifyContent: 'center',
+    borderRadius: Platform.OS === "ios" ? 30 : 0,
+    shadowRadius: 10,
+    width: screen.width - 80,
+    height: 280,
+  },
   text: {
     fontSize: 16,
     fontWeight: 'bold',

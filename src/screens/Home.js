@@ -14,7 +14,7 @@ export default class Home extends Component {
   }
 
   handlePress = () => {
-    this.props.navigation.navigate('Detail_Screen', {param: "Hello Luu"})
+    this.props.navigation.navigate('Detail_Screen', {param: "WANTED"})
   };
 
   handleSideMenu = () => {
@@ -25,79 +25,7 @@ export default class Home extends Component {
     let screeWidth = Dimensions.get("window").width;
     let screeHeight = Dimensions.get("window").height;
     return (
-      <ScrollView
-        contentContainerStyle={home.container}
-      >
-        {/*<TextInput
-          style={{
-            marginTop: 20,
-            height: 40,
-            width: 300,
-            padding: 10,
-            borderColor: 'black',
-            borderWidth: 1
-          }}
-          keyboardType='email-address'
-          placeholder="Please enter your email"
-          onChangeText={
-            (text) => {
-              this.setState((prevState) => {
-                return {
-                  textInput: text
-                };
-              });
-            }
-          }
-        />
-        <TextInput
-          style={{
-            marginTop: 20,
-            height: 40,
-            width: 300,
-            padding: 10,
-            borderColor: 'black',
-            borderWidth: 1
-          }}
-          keyboardType='default'
-          placeholder="Please enter your email"
-          secureTextEntry
-          onChangeText={
-            (text) => {
-              this.setState((prevState) => {
-                return {
-                  textPassword: text
-                };
-              });
-            }
-          }
-        />
-        <TextInput
-          style={{
-            marginTop: 20,
-            height: 80,
-            width: 300,
-            padding: 10,
-            borderColor: 'black',
-            borderWidth: 1
-          }}
-          keyboardType='default'
-          placeholder="Please enter your email"
-          secureTextEntry
-          multiline
-          borderBottomColor="green"
-          borderBottonWidth={5}
-          borderRightColor="green"
-          borderRightWidth={5}
-          borderLeftColor="green"
-          borderLeftWidth={5}
-          editable
-          autoFocus
-          returnKeyType="done"
-          onSubmitEditing={Keyboard.dismiss}
-        />
-        <Text style={home.text}>
-          {this.state.textInput}
-        </Text>*/}
+      <ScrollView contentContainerStyle={home.container}>
         <Image
           style={StyleSheet.absoluteFillObject}
           resizeMode='cover'
@@ -105,6 +33,7 @@ export default class Home extends Component {
         >
         </Image>
         <View style={home.overlay} />
+
         <View style={{flex: 1, flexDirection: 'row', paddingTop: screeHeight * 0.7}}>
           <Button
             buttonStyle={home.button}

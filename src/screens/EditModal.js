@@ -21,7 +21,6 @@ export default class EditModal extends Component {
   };
 
   showEditModal = (editingDog, flatlistItem) => {
-    // console.log(`editing Dog: ${JSON.stringify(editingDog)}`);
     this.setState({
       key: editingDog.key,
       name: editingDog.name,
@@ -68,12 +67,11 @@ export default class EditModal extends Component {
           style={{fontSize: 18, color: 'white'}}
           containerStyle={modal.btn}
           onPress={() => {
-            if (this.state.name.length === 0 ||
-              this.state.country.length === 0) {
+            if (this.state.name.length === 0 || this.state.country.length === 0) {
               alert("You must enter Dog name and description!");
-              return;
+              return
             }
-            let foundIndex = flatListData.findIndex(item => this.state.key == item.key);
+            let foundIndex = flatListData.findIndex(item => item.key == this.state.key);
             if (foundIndex < 0) return;
             flatListData[foundIndex].name = this.state.name;
             flatListData[foundIndex].country = this.state.country;

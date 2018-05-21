@@ -10,7 +10,7 @@ export const HomeStack = StackNavigator({
   Home_Screen: {
     screen: Home,
     navigationOptions: {
-      title: "Trang chu"
+      title: "Trang chủ"
     }
   },
 
@@ -22,8 +22,8 @@ export const HomeStack = StackNavigator({
   }
 });
 
-export const UserStack = StackNavigator({
-  User_Screen: {
+export const DogListStack = StackNavigator({
+  DogList_Screen: {
     screen: DogList,
     navigationOptions: {
       title: "Dog List"
@@ -40,8 +40,8 @@ export const BottomBar = TabNavigator(
       tabBarIcon: ({tintColor}) => <Icon name='home' size={30} color={tintColor}/>
     }
   },
-  User: {
-    screen: UserStack,
+  DogList: {
+    screen: DogListStack,
     navigationOptions: {
       tabBarLabel: 'DOG LIST',
       tabBarIcon: ({tintColor}) => <Icon name='list' size={30} color={tintColor}/>
