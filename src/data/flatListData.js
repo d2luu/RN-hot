@@ -59,5 +59,5 @@
     status: horizontalStatus.heart_outline
   },
 ];
-module.exports = flatListData;
+export {flatListData};
 export {horizontalStatus};

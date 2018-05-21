@@ -3,7 +3,7 @@ import { View, TextInput, StyleSheet, Dimensions,
         Platform, Text} from 'react-native';
 import Modal from 'react-native-modalbox';
 import Button from 'react-native-button';
-import flatListData from '../data/flatListData';
+import {flatListData} from '../data/flatListData';
 
 let screen = Dimensions.get("window");
 export default class AddModal extends Component {

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, FlatList, Image, ScrollView, Alert, Platform,
           TouchableHighlight } from 'react-native';
-import flatListData from '../data/flatListData';
+import {flatListData} from '../data/flatListData';
 import Swipeout from 'react-native-swipeout';
 import AddModal from './AddModal';
 import EditModal from './EditModal';

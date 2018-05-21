@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import {View, Text, StyleSheet, Image, Dimensions, ScrollView, Platform,
-        FlatList, TouchableOpacity} from 'react-native';
+        FlatList, TouchableOpacity, TouchableWithoutFeedback} from 'react-native';
 import { Button } from 'react-native-elements';
-import flatListData from '../data/flatListData';
-import horizontalStatus from '../data/flatListData';
+import {flatListData} from '../data/flatListData';
+import {horizontalStatus} from '../data/flatListData';
 import Icon from 'react-native-vector-icons/Ionicons'
 
 class HorizontalFlatListItem extends Component {
@@ -24,28 +24,30 @@ class HorizontalFlatListItem extends Component {
         margin: 4,
         borderRadius: 10
       }}>
-        
-        <Image 
-          style={{
-            height: 100,
-            width: 100,
-            borderRadius: 10
-          }}
-          source={{uri: this.props.item.imageUrl}}
-        >
-        </Image>
-        <TouchableOpacity 
-          style={{
-            // position: 'absolute',
-            // top: 0,
-            // bottom: 0,
-            // left: 0,
-            // right: 0,
-            // justifyContent: 'center',
-            // alignItems: 'center'
-          }}
+        <TouchableWithoutFeedback
           onPress={() => {
             alert(`Dog name is: ${this.props.item.name}`)
+          }}
+        >
+          <Image 
+            style={{
+              height: 100,
+              width: 100,
+              borderRadius: 10
+            }}
+            source={{uri: this.props.item.imageUrl}}
+          >
+          </Image>
+        </TouchableWithoutFeedback>
+
+        <TouchableOpacity 
+          onPress={() => {
+            this.setState(() => {
+              if(this.state.status == horizontalStatus.heart) {
+                return {status: horizontalStatus.heart_outline}
+              }
+              return {status: horizontalStatus.heart}
+            })
           }}
         >
           <Icon 
