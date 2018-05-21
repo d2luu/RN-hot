@@ -5,6 +5,7 @@ import DogList from './screens/DogList';
 import Detail from './screens/Detail';
 import Menu from './screens/Menu';
 import {Icon} from 'react-native-elements';
+import CryptoCoin from './screens/CryptoCoin';
 
 export const HomeStack = StackNavigator({
   Home_Screen: {
@@ -31,6 +32,15 @@ export const DogListStack = StackNavigator({
   }
 });
 
+export const CoinStack = StackNavigator({
+  Coin_Screen: {
+    screen: CryptoCoin,
+    navigationOptions: {
+      title: "Coin List"
+    }
+  }
+});
+
 export const BottomBar = TabNavigator(
 {
   Home: {
@@ -45,6 +55,13 @@ export const BottomBar = TabNavigator(
     navigationOptions: {
       tabBarLabel: 'DOG LIST',
       tabBarIcon: ({tintColor}) => <Icon name='list' size={30} color={tintColor}/>
+    }
+  },
+  CoinList: {
+    screen: CoinStack,
+    navigationOptions: {
+      tabBarLabel: 'COIN LIST',
+      tabBarIcon: ({tintColor}) => <Icon name='stars' size={30} color={tintColor}/>
     }
   }
 },

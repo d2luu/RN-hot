@@ -70,8 +70,8 @@ export default class Detail extends Component {
     let screenHeight = Dimensions.get("window").height;
     
     return (
-      <View 
-        style={detail.container} 
+      <ScrollView 
+        contentContainerStyle={detail.container} 
       >
         <View style={{
           flex: 1, 
@@ -125,7 +125,7 @@ export default class Detail extends Component {
         }}>
           <Text>Luu manh an nhanh</Text>        
         </View> */}
-      </View>
+      </ScrollView>
     );
   }
 }
