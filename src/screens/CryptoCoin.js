@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {View, Text, StyleSheet, FlatList, ScrollView,
         Image, RefreshControl} from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
-import {getCoinList} from '../networking/GetDataFromApi';
+import {getCoinList} from '../networking/fetchApi';
 
 export default class CryptoCoin extends Component {
   constructor(props) {
@@ -12,7 +12,8 @@ export default class CryptoCoin extends Component {
       isLoading: true,
       coinData: []
     };
-    this.tick = this.tick.bind(this)
+    this.tick = this.tick.bind(this);
+    this.onRefresh = this.onRefresh.bind(this)
   }
 
   tick() {
@@ -34,7 +35,7 @@ export default class CryptoCoin extends Component {
     });
   }
 
-  onRefresh = () => {
+  onRefresh() {
     this.tick();
   };
 

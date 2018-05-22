@@ -68,6 +68,7 @@ export const BottomBar = TabNavigator(
 {
   tabBarPosition: 'bottom',
   tabBarOptions: {
+    showIcon: true,
     style: {
       backgroundColor: '#dddddd'
     },
