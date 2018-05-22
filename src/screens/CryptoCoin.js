@@ -1,36 +1,46 @@
 import React, {Component} from 'react';
-import {View, Text, StyleSheet, FlatList, ScrollView, Image} from 'react-native';
+import {View, Text, StyleSheet, FlatList, ScrollView,
+        Image, RefreshControl} from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
+import {getCoinList} from '../networking/GetDataFromApi';
 
 export default class CryptoCoin extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      isRefreshing: false,
       isLoading: true,
       coinData: []
     };
-  }
-
-  fetchData() {
-    fetch('https://api.coinmarketcap.com/v1/ticker/?limit=10')
-      .then(res => res.json())
-      .then((data) => {
-        this.setState({
-          isLoading: false,
-          coinData: data
-        });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    this.tick = this.tick.bind(this)
   }
 
   tick() {
-    this.fetchData();
+    this.setState({isRefreshing: true});
+    getCoinList()
+      .then((coinList) => {
+        this.setState({
+          isRefreshing: false,
+          isLoading: false,
+          coinData: coinList
+        });
+      })
+      .catch((e) => {
+        this.setState({
+          isRefreshing: false,
+          isLoading: false,
+          coinData: []
+        });
+    });
   }
 
+  onRefresh = () => {
+    this.tick();
+  };
+
   componentDidMount() {
-    setInterval(() => this.tick(), 5000);
+    this.tick();
+    // setInterval(() => this.tick(), 5000);
   }
 
   render() {
@@ -47,7 +57,7 @@ export default class CryptoCoin extends Component {
       );
     }
     return (
-      <ScrollView style={{flex: 1, backgroundColor: 'white'}}>
+      <View style={{flex: 1, backgroundColor: 'white'}}>
         <FlatList
           data={this.state.coinData}
           renderItem={({item, index}) => {
@@ -62,10 +72,16 @@ export default class CryptoCoin extends Component {
             );
           }}
           keyExtractor={(item, index) => index.toString()}
+          refreshControl={
+            <RefreshControl
+              refreshing={this.state.isRefreshing}
+              onRefresh={this.onRefresh}
+            />
+          }
         >
 
         </FlatList>
-      </ScrollView>
+      </View>
     );
   }
 }
