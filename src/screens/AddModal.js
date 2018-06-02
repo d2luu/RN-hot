@@ -3,7 +3,7 @@ import { View, TextInput, StyleSheet, Dimensions,
         Platform, Text} from 'react-native';
 import Modal from 'react-native-modalbox';
 import Button from 'react-native-button';
-import {flatListData} from '../data/flatListData';
+import {insertNewDogToServer} from '../networking/fetchApi';
 
 let screen = Dimensions.get("window");
 export default class AddModal extends Component {
@@ -12,7 +12,7 @@ export default class AddModal extends Component {
     this.state = {
       newDog: '',
       description: ''
-    }
+    };
     this.showAddModal = this.showAddModal.bind(this)    
   }
 
@@ -63,11 +63,16 @@ export default class AddModal extends Component {
             const newDog = {
               key: newKey,
               name: this.state.newDog,
-              imageUrl: 'https://www.cesarsway.com/sites/newcesarsway/files/styles/large_article_preview/public/Natural-Dog-Law-2-To-dogs%2C-energy-is-everything.jpg?itok=Z-ujUOUr',
-              country: this.state.description
+              dogDescription: this.state.description,
+              // url: 'https://www.cesarsway.com/sites/newcesarsway/files/styles/large_article_preview/public/Natural-Dog-Law-2-To-dogs%2C-energy-is-everything.jpg?itok=Z-ujUOUr',
             };
-            flatListData.push(newDog);
-            this.props.parentFlatList.refreshFlatList(newKey)
+            insertNewDogToServer(newDog).then((result) => {
+              if (result === 'ok') {
+                this.props.parentFlatList.refreshDataFromServer();
+              } else if (result === 'failed') {
+                console.log("Insert Failed!");
+              }
+            });
             this.refs.myModal.close();
           }}
         >

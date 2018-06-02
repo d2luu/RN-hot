@@ -43,7 +43,7 @@ class HorizontalFlatListItem extends Component {
         <TouchableOpacity 
           onPress={() => {
             this.setState(() => {
-              if(this.state.status == horizontalStatus.heart) {
+              if(this.state.status === horizontalStatus.heart) {
                 return {status: horizontalStatus.heart_outline}
               }
               return {status: horizontalStatus.heart}

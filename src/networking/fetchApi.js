@@ -4,6 +4,10 @@ import {View, Text, StyleSheet} from 'react-native';
 const apiCoinMarketCap = 'https://api.coinmarketcap.com/v1/ticker/?limit=10';
 const apiToInsert = '';
 const apiToEdit = '';
+const apiInsertNewDog = 'http://localhost:3000/insert_new_dog';
+const apiDogList = 'http://localhost:3000/list_all_dog';
+const apiUpdateADog = 'http://localhost:3000/update_a_dog';
+const apiDeleteADog = 'http://localhost:3000/delete_a_dog';
 
 async function getCoinList() {
   try {
@@ -49,7 +53,71 @@ async function updateElementToServer(params) {
   }
 }
 
+async function getDogList() {
+  try {
+    let res = await fetch(apiDogList);
+    let resJson = await res.json();
+    return resJson.data;
+  } catch (e) {
+    console.log(`Error is: ${e}`);
+  }
+}
+
+async function insertNewDogToServer(params) {
+  try {
+    let res = await fetch(apiInsertNewDog, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(params)
+    });
+    let resJson = await res.json();
+    return resJson.result
+  } catch (e) {
+    console.log(`Error is: ${e}`);
+  }
+}
+
+async function updateADog(params) {
+  try {
+    let res = await fetch(apiUpdateADog, {
+      method: 'PUT',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(params)
+    });
+    let resJson = await res.json();
+    return resJson.result;
+  } catch (e) {
+    console.error(`Error is : ${e}`)
+  }
+}
+
+async function deleteADog(params) {
+  try {
+    let res = await fetch(apiDeleteADog, {
+      method: 'DELETE',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(params)
+    });
+    let resJson = await res.json();
+    return resJson.result;
+  } catch (e) {
+    console.error(`Error is: ${e}`);
+  }
+}
 
 export {getCoinList};
+export {getDogList};
+export {insertNewDogToServer};
+export {updateADog};
+export {deleteADog};
 export {insertNewElementToServer};
 export {updateElementToServer};

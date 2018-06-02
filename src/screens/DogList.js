@@ -1,16 +1,19 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, FlatList, Image, ScrollView, Alert, Platform,
-          TouchableHighlight } from 'react-native';
-import {flatListData} from '../data/flatListData';
+          TouchableHighlight, RefreshControl } from 'react-native';
 import Swipeout from 'react-native-swipeout';
 import AddModal from './AddModal';
 import EditModal from './EditModal';
+import {getDogList} from '../networking/fetchApi';
+import {deleteADog} from '../networking/fetchApi';
 
 export default class DogList extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      refreshing: false,
       deletedRowKey: null,
+      dogList: []
     };
     this._handlePress = this._handlePress.bind(this);
     this.addModal = React.createRef();
@@ -28,12 +31,37 @@ export default class DogList extends Component {
     this.refs.flatList.scrollToEnd();
   };
 
+  componentDidMount = () => {
+    this.refreshDataFromServer()
+  };
+
+  onRefresh = () => {
+    this.refreshDataFromServer();
+  };
+
+  refreshDataFromServer = () => {
+    this.setState({refreshing: true});
+    getDogList()
+      .then((dogList) => {
+        this.setState({
+          dogList: dogList,
+          refreshing: false
+        });
+      })
+      .catch((e) => {
+        this.setState({
+          dogList: [],
+          refreshing: false
+        });
+      });
+  };
+
   render() {
     let touchableHighlightSetting = {
       style: {marginRight: 10, borderRadius: 16, shadowOpacity: 0.5,},
       underlayColor: "gray",
       onPress: this._handlePress
-    }
+    };
     return (
       <View style={user.container}>
         <View style={user.list}>
@@ -50,7 +78,7 @@ export default class DogList extends Component {
         <FlatList
           ref={'flatList'}
           style={user.flatList}
-          data={flatListData}
+          data={this.state.dogList}
           renderItem={({item, index}) => {
             return (
               <FlatListItem
@@ -61,6 +89,12 @@ export default class DogList extends Component {
             )
           }}
           keyExtractor={(item, index) => index.toString()}
+          refreshControl={
+            <RefreshControl
+              refreshing={this.state.refreshing}
+              onRefresh={this.onRefresh}
+            />
+          }
         >
         </FlatList>
 
@@ -80,13 +114,13 @@ export class FlatListItem extends Component {
     super(props);
     this.state = {
       activeRowKey: null,
-      numOfRefresh: 0      
+      item: {}
     }
   }
 
-  refreshFlatListItem = () => {
-    this.setState((prevState) => {
-      return {numOfRefresh: prevState.numOfRefresh + 1}
+  refreshFlatListItem = (changedItem) => {
+    this.setState({
+      item: changedItem
     });
   };
 
@@ -104,22 +138,28 @@ export class FlatListItem extends Component {
       right: [
         {
           onPress: () => {
-            this.props.parentFlatList.editModal.current.showEditModal(flatListData[this.props.index], this)
+            let selectedItem = this.state.item.name ? this.state.item : this.props.item;
+            this.props.parentFlatList.editModal.current.showEditModal(selectedItem, this)
           },
           text: 'Edit', type: 'primary'
         },
         {
           onPress: () => {
-            const deletingRow = this.state.activeRowKey;
+            let selectedItem = this.state.item.name ? this.state.item : this.props.item;
             Alert.alert(
               '警報',
               '消去してもよろしいですか?',
               [
                 {text: 'いいえ', onPress: () => console.log("Cancel Pressed"), style: 'cancel'},
                 {text: 'はい', onPress: () => {
-                    flatListData.splice(this.props.index, 1);
-                    this.props.parentFlatList.refreshFlatList(deletingRow);
-                  }
+                  deleteADog({dog_id: selectedItem._id}).then((result) => {
+                    if (result === "ok") {
+                      console.log(result);
+                      this.props.parentFlatList.refreshDataFromServer();
+                    } else if (result === "failed") {
+                      console.log("Insert Failed!");
+                    }
+                  })}
                 }
               ],
               {cancelable: false}
@@ -145,13 +185,13 @@ export class FlatListItem extends Component {
             }}
           >
             <Image
-              source={{uri: this.props.item.imageUrl}}
+              source={{uri: this.props.item.url}}
               style={{width: 100, height: 100, margin: 5}}
             />
 
             <ScrollView style={user.flatItem} >
-              <Text style={user.dogName} children={this.props.item.name}/>
-              <Text style={user.flastListItem} children={this.props.item.country}/>
+              <Text style={user.dogName} children={this.state.item.name ? this.state.item.name : this.props.item.name}/>
+              <Text style={user.flastListItem} children={this.state.item.dogDescription ? this.state.item.dogDescription : this.props.item.dogDescription}/>
             </ScrollView>
           </View>
 

@@ -4,14 +4,14 @@ import { View, TextInput, StyleSheet, Dimensions,
 import Modal from 'react-native-modalbox';
 import Button from 'react-native-button';
 import {flatListData} from '../data/flatListData';
+import {updateADog} from '../networking/fetchApi';
 
 let screen = Dimensions.get("window");
 export default class EditModal extends Component {
   constructor(props) {
     super(props);
-    // this.showEditModal = this.showEditModal.bind(this);
     this.state = {
-      newDog: '',
+      name: '',
       description: ''
     }
   }
@@ -22,9 +22,9 @@ export default class EditModal extends Component {
 
   showEditModal = (editingDog, flatlistItem) => {
     this.setState({
-      key: editingDog.key,
+      key: editingDog._id,
       name: editingDog.name,
-      country: editingDog.country,
+      description: editingDog.dogDescription,
       flatlistItem: flatlistItem
     });
     this.refs.myModal.open();
@@ -60,24 +60,38 @@ export default class EditModal extends Component {
         <TextInput
           style={modal.textInput}
           placeholder='Change description here'
-          value={this.state.country}
-          onChangeText={(text) => this.setState({ country: text })}
+          value={this.state.description}
+          onChangeText={(text) => this.setState({ description: text })}
         />
         <Button
           style={{fontSize: 18, color: 'white'}}
           containerStyle={modal.btn}
           onPress={() => {
-            if (this.state.name.length === 0 || this.state.country.length === 0) {
+            if (this.state.name.length === 0 || this.state.description.length === 0) {
               alert("You must enter Dog name and description!");
               return
             }
-            let foundIndex = flatListData.findIndex(item => item.key == this.state.key);
-            if (foundIndex < 0) return;
-            flatListData[foundIndex].name = this.state.name;
-            flatListData[foundIndex].country = this.state.country;
-            this.state.flatlistItem.refreshFlatListItem();
-
-            this.refs.myModal.close();
+            // let foundIndex = flatListData.findIndex(item => item.key == this.state.key);
+            // if (foundIndex < 0) return;
+            // flatListData[foundIndex].name = this.state.name;
+            // flatListData[foundIndex].country = this.state.description;
+            let params = {
+              dog_id: this.state.key,
+              name: this.state.name,
+              dogDescription: this.state.description
+            };
+            updateADog(params).then((result) => {
+              if (result === 'ok') {
+                this.state.flatlistItem.refreshFlatListItem({
+                  _id: this.state.key,
+                  name: this.state.name,
+                  dogDescription: this.state.description
+                })
+              }
+              this.refs.myModal.close();
+            }).catch((err) => {
+              console.error(`Error is: ${err}`);
+            });
           }}
         >
           Save
