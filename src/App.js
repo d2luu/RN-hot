@@ -5,7 +5,7 @@
  */
 
 import React, {Component} from 'react';
-import {StyleSheet} from 'react-native';
+import {StyleSheet, Platform} from 'react-native';
 import {SideMenu} from './Router';
 import OneSignal from 'react-native-onesignal';
 
@@ -43,10 +43,12 @@ export default class App extends Component {
 
   render() {
     return (
-      <SideMenu />
+      <SideMenu uriPrefix={prefix}/>
     );
   }
 }
+
+const prefix = Platform.OS == 'android' ? 'mydog://mydog/' : 'mydog://';
 
 const styles = StyleSheet.create({
   container: {

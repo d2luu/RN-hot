@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {StackNavigator, TabNavigator, DrawerNavigator} from 'react-navigation';
+import {createStackNavigator, createBottomTabNavigator, createDrawerNavigator} from 'react-navigation';
 import Home from './screens/Home';
 import DogList from './screens/DogList';
 import Detail from './screens/Detail';
@@ -7,7 +7,7 @@ import Menu from './screens/Menu';
 import {Icon} from 'react-native-elements';
 import CryptoCoin from './screens/CryptoCoin';
 
-export const HomeStack = StackNavigator({
+export const HomeStack = createStackNavigator({
   Home_Screen: {
     screen: Home,
     navigationOptions: {
@@ -23,16 +23,17 @@ export const HomeStack = StackNavigator({
   }
 });
 
-export const DogListStack = StackNavigator({
+export const DogListStack = createStackNavigator({
   DogList_Screen: {
     screen: DogList,
     navigationOptions: {
       title: "Dog List"
-    }
+    },
+    path: 'doglist'
   }
 });
 
-export const CoinStack = StackNavigator({
+export const CoinStack = createStackNavigator({
   Coin_Screen: {
     screen: CryptoCoin,
     navigationOptions: {
@@ -41,7 +42,7 @@ export const CoinStack = StackNavigator({
   }
 });
 
-export const BottomBar = TabNavigator(
+export const BottomBar = createBottomTabNavigator(
 {
   Home: {
     screen: HomeStack,
@@ -78,7 +79,7 @@ export const BottomBar = TabNavigator(
   swipeEnabled: true
 });
 
-export const SideMenu = DrawerNavigator(
+export const SideMenu = createDrawerNavigator(
   {
     Tabbar: {
       screen: BottomBar
