@@ -12,14 +12,16 @@ export const HomeStack = createStackNavigator({
     screen: Home,
     navigationOptions: {
       title: "Trang chủ"
-    }
+    },
+    path: 'main'
   },
 
   Detail_Screen: {
     screen: Detail,
     navigationOptions: {
       title: "Detail"
-    }
+    },
+    path: 'detail'
   }
 });
 
@@ -28,7 +30,8 @@ export const DogListStack = createStackNavigator({
     screen: DogList,
     navigationOptions: {
       title: "Dog List"
-    }
+    },
+    path: 'doglist'
   }
 });
 
@@ -37,7 +40,8 @@ export const CoinStack = createStackNavigator({
     screen: CryptoCoin,
     navigationOptions: {
       title: "Coin List"
-    }
+    },
+    path: 'coinlist'
   }
 });
 
