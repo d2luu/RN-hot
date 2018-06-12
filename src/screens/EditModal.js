@@ -70,10 +70,6 @@ export default class EditModal extends Component {
               alert("You must enter Dog name and description!");
               return
             }
-            // let foundIndex = flatListData.findIndex(item => item.key == this.state.key);
-            // if (foundIndex < 0) return;
-            // flatListData[foundIndex].name = this.state.name;
-            // flatListData[foundIndex].country = this.state.description;
             let params = {
               dog_id: this.state.key,
               name: this.state.name,

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text, StyleSheet, FlatList, ScrollView,
+import {View, Text, StyleSheet, FlatList,
         Image, RefreshControl} from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
 import {getCoinList} from '../networking/fetchApi';

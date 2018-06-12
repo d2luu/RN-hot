@@ -115,16 +115,6 @@ export default class Detail extends Component {
             </FlatList>  
           </View>
         </View>
-        {/* <View style={{
-          flex: 1, 
-          width: screenWidth,
-          height: screenHeight,
-          justifyContent: 'center',
-          alignItems: 'center',
-          backgroundColor: "tomato"
-        }}>
-          <Text>Luu manh an nhanh</Text>        
-        </View> */}
       </ScrollView>
     );
   }

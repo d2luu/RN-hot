@@ -141,7 +141,7 @@ export class FlatListItem extends Component {
             let selectedItem = this.state.item.name ? this.state.item : this.props.item;
             this.props.parentFlatList.editModal.current.showEditModal(selectedItem, this)
           },
-          text: 'Edit', type: 'primary'
+          text: '募集', type: 'primary'
         },
         {
           onPress: () => {
@@ -165,7 +165,7 @@ export class FlatListItem extends Component {
               {cancelable: false}
             );
         },
-          text: 'Delete', type: 'delete'
+          text: '削除', type: 'delete'
       }],
       rowId: this.props.index,
       sectionID: 1
