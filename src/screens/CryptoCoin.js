@@ -12,11 +12,11 @@ export default class CryptoCoin extends Component {
       isLoading: true,
       coinData: []
     };
-    this.tick = this.tick.bind(this);
-    this.onRefresh = this.onRefresh.bind(this)
+    // this.tick = this.tick.bind(this);
+    // this.onRefresh = this.onRefresh.bind(this)
   }
 
-  tick() {
+  tick = () => {
     this.setState({isRefreshing: true});
     getCoinList()
       .then((coinList) => {
@@ -33,9 +33,9 @@ export default class CryptoCoin extends Component {
           coinData: []
         });
     });
-  }
+  };
 
-  onRefresh() {
+  onRefresh = () => {
     this.tick();
   };
 
