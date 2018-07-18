@@ -54,18 +54,18 @@ export const BottomBar = createBottomTabNavigator(
       tabBarIcon: ({tintColor}) => <Icon name='home' size={30} color={tintColor}/>
     }
   },
-  DogList: {
-    screen: DogListStack,
-    navigationOptions: {
-      tabBarLabel: 'DOG LIST',
-      tabBarIcon: ({tintColor}) => <Icon name='list' size={30} color={tintColor}/>
-    }
-  },
   CoinList: {
     screen: CoinStack,
     navigationOptions: {
       tabBarLabel: 'COIN LIST',
       tabBarIcon: ({tintColor}) => <Icon name='stars' size={30} color={tintColor}/>
+    }
+  },
+  DogList: {
+    screen: DogListStack,
+    navigationOptions: {
+      tabBarLabel: 'DOG LIST',
+      tabBarIcon: ({tintColor}) => <Icon name='list' size={30} color={tintColor}/>
     }
   }
 },
