@@ -1,5 +1,9 @@
-import React, { Component } from 'react';
-import {createStackNavigator, createBottomTabNavigator, createDrawerNavigator} from 'react-navigation';
+import React, {Component} from 'react';
+import {
+  createStackNavigator,
+  createBottomTabNavigator,
+  createDrawerNavigator,
+} from 'react-navigation';
 import Home from './screens/Home';
 import DogList from './screens/DogList';
 import Detail from './screens/Detail';
@@ -11,86 +15,89 @@ export const HomeStack = createStackNavigator({
   Home_Screen: {
     screen: Home,
     navigationOptions: {
-      title: "Trang chủ"
+      title: 'Trang chủ',
     },
-    path: 'main'
+    path: 'main',
   },
 
   Detail_Screen: {
     screen: Detail,
     navigationOptions: {
-      title: "Detail"
+      title: 'Detail',
     },
-    path: 'detail'
-  }
+    path: 'detail',
+  },
 });
 
 export const DogListStack = createStackNavigator({
   DogList_Screen: {
     screen: DogList,
     navigationOptions: {
-      title: "Dog List"
+      title: 'Dog List',
     },
-    path: 'doglist'
-  }
+    path: 'doglist',
+  },
 });
 
 export const CoinStack = createStackNavigator({
   Coin_Screen: {
     screen: CryptoCoin,
     navigationOptions: {
-      title: "Coin List"
+      title: 'Coin List',
     },
-    path: 'coinlist'
-  }
+    path: 'coinlist',
+  },
 });
 
 export const BottomBar = createBottomTabNavigator(
-{
-  Home: {
-    screen: HomeStack,
-    navigationOptions: {
-      tabBarLabel: 'HOME',
-      tabBarIcon: ({tintColor}) => <Icon name='home' size={30} color={tintColor}/>
-    }
-  },
-  CoinList: {
-    screen: CoinStack,
-    navigationOptions: {
-      tabBarLabel: 'COIN LIST',
-      tabBarIcon: ({tintColor}) => <Icon name='stars' size={30} color={tintColor}/>
-    }
-  },
-  DogList: {
-    screen: DogListStack,
-    navigationOptions: {
-      tabBarLabel: 'DOG LIST',
-      tabBarIcon: ({tintColor}) => <Icon name='list' size={30} color={tintColor}/>
-    }
-  }
-},
-{
-  tabBarPosition: 'bottom',
-  tabBarOptions: {
-    showIcon: true,
-    style: {
-      backgroundColor: '#dddddd'
+  {
+    Home: {
+      screen: HomeStack,
+      navigationOptions: {
+        tabBarLabel: 'HOME',
+        tabBarIcon: ({tintColor}) => <Icon name='home' size={30}
+                                           color={tintColor}/>,
+      },
     },
-    activeTintColor: "red",
-    inactiveTintColor: "black",
+    CoinList: {
+      screen: CoinStack,
+      navigationOptions: {
+        tabBarLabel: 'COIN LIST',
+        tabBarIcon: ({tintColor}) => <Icon name='stars' size={30}
+                                           color={tintColor}/>,
+      },
+    },
+    DogList: {
+      screen: DogListStack,
+      navigationOptions: {
+        tabBarLabel: 'DOG LIST',
+        tabBarIcon: ({tintColor}) => <Icon name='list' size={30}
+                                           color={tintColor}/>,
+      },
+    },
   },
-  swipeEnabled: true
-});
+  {
+    tabBarPosition: 'bottom',
+    tabBarOptions: {
+      showIcon: true,
+      style: {
+        backgroundColor: '#dddddd',
+      },
+      activeTintColor: 'red',
+      inactiveTintColor: 'black',
+    },
+    swipeEnabled: true,
+  });
 
 export const SideMenu = createDrawerNavigator(
   {
     Tabbar: {
-      screen: BottomBar
-    }
+      screen: BottomBar,
+    },
   },
   {
     drawerWidth: 300,
     drawerPosition: 'left',
-    contentComponent: props => <Menu {...props}/>
-  }
+    contentComponent: props => <Menu {...props}/>,
+  },
 );

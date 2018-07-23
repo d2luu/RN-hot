@@ -1,19 +1,21 @@
-import React, { Component } from 'react';
-import { View, TextInput, StyleSheet, Dimensions,
-        Platform, Text} from 'react-native';
+import React, {Component} from 'react';
+import {
+  View, TextInput, StyleSheet, Dimensions,
+  Platform, Text,
+} from 'react-native';
 import Modal from 'react-native-modalbox';
 import Button from 'react-native-button';
 import {insertNewDogToServer} from '../networking/fetchApi';
 
-let screen = Dimensions.get("window");
+let screen = Dimensions.get('window');
 export default class AddModal extends Component {
   constructor(props) {
     super(props);
     this.state = {
       newDog: '',
-      description: ''
+      description: '',
     };
-    this.showAddModal = this.showAddModal.bind(this)    
+    this.showAddModal = this.showAddModal.bind(this);
   }
 
   generateKey = (numberOfChar) => {
@@ -25,13 +27,13 @@ export default class AddModal extends Component {
   };
 
   render() {
-    return(
+    return (
       <Modal
-        ref={"myModal"}
+        ref={'myModal'}
         style={modal.container}
         position={'center'}
         backdrop={true}
-        onClosed = {() => {
+        onClosed={() => {
           // Do something here if modal close
         }}
       >
@@ -43,21 +45,22 @@ export default class AddModal extends Component {
           style={modal.textInput}
           placeholder='Add new dog here'
           value={this.state.newDog}
-          onChangeText={(text) => this.setState({ newDog: text })}
+          onChangeText={(text) => this.setState({newDog: text})}
         />
         <TextInput
           style={modal.textInput}
           placeholder='Add description here'
           value={this.state.description}
-          onChangeText={(text) => this.setState({ description: text })}
+          onChangeText={(text) => this.setState({description: text})}
         />
         <Button
           style={{fontSize: 18, color: 'white'}}
           containerStyle={modal.btn}
           onPress={() => {
-            if (this.state.newDog.length === 0 || this.state.description.length === 0) {
-              alert("You must enter Dog name and description!");
-              return
+            if (this.state.newDog.length === 0 ||
+              this.state.description.length === 0) {
+              alert('You must enter Dog name and description!');
+              return;
             }
             const newKey = this.generateKey(4);
             const newDog = {
@@ -70,7 +73,7 @@ export default class AddModal extends Component {
               if (result === 'ok') {
                 this.props.parentFlatList.refreshDataFromServer();
               } else if (result === 'failed') {
-                console.log("Insert Failed!");
+                console.log('Insert Failed!');
               }
             });
             this.refs.myModal.close();
@@ -80,14 +83,14 @@ export default class AddModal extends Component {
         </Button>
 
       </Modal>
-    )
+    );
   }
 }
 
 const modal = StyleSheet.create({
   container: {
     justifyContent: 'center',
-    borderRadius: Platform.OS === "ios" ? 30 : 0,
+    borderRadius: Platform.OS === 'ios' ? 30 : 0,
     shadowRadius: 10,
     width: screen.width - 80,
     height: 280,
@@ -96,7 +99,7 @@ const modal = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
     textAlign: 'center',
-    marginTop: 40
+    marginTop: 40,
   },
   textInput: {
     height: 40,
@@ -113,7 +116,7 @@ const modal = StyleSheet.create({
     marginRight: 70,
     height: 40,
     borderRadius: 6,
-    backgroundColor: 'mediumseagreen'
-  }
+    backgroundColor: 'mediumseagreen',
+  },
 
 });

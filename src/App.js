@@ -9,7 +9,7 @@ import {StyleSheet, Platform} from 'react-native';
 import {SideMenu} from './Router';
 import OneSignal from 'react-native-onesignal';
 
-const ONESIGNAL_APPID = "5ceaa120-c010-4fef-bfd4-75246165f4c2";
+const ONESIGNAL_APPID = '5ceaa120-c010-4fef-bfd4-75246165f4c2';
 
 export default class App extends Component {
   componentDidMount() {
@@ -27,7 +27,7 @@ export default class App extends Component {
   }
 
   onReceived(notification) {
-    console.log("Notification received: ", notification);
+    console.log('Notification received: ', notification);
   }
 
   onOpened(openResult) {

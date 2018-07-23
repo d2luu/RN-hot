@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
-import {View, Text, StyleSheet, FlatList,
-        Image, RefreshControl} from 'react-native';
+import {
+  View, Text, StyleSheet, FlatList,
+  Image, RefreshControl,
+} from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
 import {getCoinList} from '../networking/fetchApi';
 
@@ -10,7 +12,7 @@ export default class CryptoCoin extends Component {
     this.state = {
       isRefreshing: false,
       isLoading: true,
-      coinData: []
+      coinData: [],
     };
     // this.tick = this.tick.bind(this);
     // this.onRefresh = this.onRefresh.bind(this)
@@ -18,20 +20,18 @@ export default class CryptoCoin extends Component {
 
   tick = () => {
     this.setState({isRefreshing: true});
-    getCoinList()
-      .then((coinList) => {
-        this.setState({
-          isRefreshing: false,
-          isLoading: false,
-          coinData: coinList
-        });
-      })
-      .catch((e) => {
-        this.setState({
-          isRefreshing: false,
-          isLoading: false,
-          coinData: []
-        });
+    getCoinList().then((coinList) => {
+      this.setState({
+        isRefreshing: false,
+        isLoading: false,
+        coinData: coinList,
+      });
+    }).catch((e) => {
+      this.setState({
+        isRefreshing: false,
+        isLoading: false,
+        coinData: [],
+      });
     });
   };
 
@@ -45,7 +45,7 @@ export default class CryptoCoin extends Component {
   }
 
   render() {
-    if(this.state.isLoading) {
+    if (this.state.isLoading) {
       return (
         <View>
           <Spinner
@@ -62,7 +62,7 @@ export default class CryptoCoin extends Component {
         <FlatList
           data={this.state.coinData}
           renderItem={({item, index}) => {
-            return(
+            return (
               <CoinCard
                 coin_name={item.name}
                 symbol={item.symbol}
@@ -103,13 +103,18 @@ export class CoinCard extends Component {
         </View>
 
         <View style={statisticsContainer}>
-          <Text>24h: <Text style={this.props.percent_change_24h < 0 ? percentChangeMinus : percentChangePlus }>{this.props.percent_change_24h}%</Text></Text>
-          <Text>7 days: <Text style={this.props.percent_change_7d < 0 ? percentChangeMinus : percentChangePlus }>{this.props.percent_change_7d}%</Text></Text>
+          <Text>24h: <Text style={this.props.percent_change_24h < 0 ?
+            percentChangeMinus :
+            percentChangePlus}>{this.props.percent_change_24h}%</Text></Text>
+          <Text>7 days: <Text style={this.props.percent_change_7d < 0 ?
+            percentChangeMinus :
+            percentChangePlus}>{this.props.percent_change_7d}%</Text></Text>
         </View>
       </View>
     );
   }
 }
+
 export const images = {
   BTC: 'https://res.cloudinary.com/da7jhtpgh/image/upload/v1508609483/bitcoin_eqld4v.png',
   ETH: 'https://res.cloudinary.com/da7jhtpgh/image/upload/v1508609485/ethereum_nw0chu.png',
@@ -128,59 +133,59 @@ export const images = {
   ADA: 'https://res.cloudinary.com/da7jhtpgh/image/upload/v1516326874/ada_2x_g4fs0c.png',
   IOTA: 'https://res.cloudinary.com/da7jhtpgh/image/upload/v1516327102/miota_2x_zsvtqc.png',
   TRX: 'https://res.cloudinary.com/da7jhtpgh/image/upload/v1516326885/trx_2x_ukhxjm.png',
-  EOS: 'https://res.cloudinary.com/da7jhtpgh/image/upload/v1516326878/eos_2x_dvr7p0.png'
+  EOS: 'https://res.cloudinary.com/da7jhtpgh/image/upload/v1516326878/eos_2x_dvr7p0.png',
 };
 const styles = StyleSheet.create({
   container: {
-    display: "flex",
+    display: 'flex',
     marginBottom: 20,
-    borderBottomColor: "#e5e5e5",
+    borderBottomColor: '#e5e5e5',
     borderBottomWidth: 3,
-    padding: 20
+    padding: 20,
   },
   upperRow: {
-    display: "flex",
-    flexDirection: "row",
-    marginBottom: 15
+    display: 'flex',
+    flexDirection: 'row',
+    marginBottom: 15,
   },
   coinSymbol: {
     marginTop: 10,
     marginLeft: 20,
     marginRight: 5,
-    fontWeight: "bold",
+    fontWeight: 'bold',
   },
   coinName: {
     marginTop: 10,
     marginLeft: 5,
-    marginRight: 20
+    marginRight: 20,
   },
   seperator: {
     marginTop: 10,
   },
   coinPrice: {
     marginTop: 10,
-    marginLeft: "auto",
+    marginLeft: 'auto',
     marginRight: 10,
-    fontWeight: "bold",
+    fontWeight: 'bold',
   },
   statisticsContainer: {
-    display: "flex",
-    borderTopColor: "#FAFAFA",
+    display: 'flex',
+    borderTopColor: '#FAFAFA',
     borderTopWidth: 2,
     padding: 10,
-    flexDirection: "row",
-    justifyContent: "space-around"
+    flexDirection: 'row',
+    justifyContent: 'space-around',
   },
   percentChangePlus: {
-    color: "#66ff33",
-    fontWeight: "bold",
-    marginLeft: 5
+    color: '#66ff33',
+    fontWeight: 'bold',
+    marginLeft: 5,
   },
   percentChangeMinus: {
-    color: "#DD2C00",
-    fontWeight: "bold",
-    marginLeft: 5
-  }
+    color: '#DD2C00',
+    fontWeight: 'bold',
+    marginLeft: 5,
+  },
 });
 
 const {
@@ -192,5 +197,5 @@ const {
   statisticsContainer,
   seperator,
   percentChangePlus,
-  percentChangeMinus
+  percentChangeMinus,
 } = styles;
