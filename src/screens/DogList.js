@@ -1,6 +1,8 @@
-import React, { Component } from 'react';
-import { View, Text, StyleSheet, FlatList, Image, ScrollView, Alert, Platform,
-          TouchableHighlight, RefreshControl } from 'react-native';
+import React, {Component} from 'react';
+import {
+  View, Text, StyleSheet, FlatList, Image, ScrollView, Alert, Platform,
+  TouchableHighlight, RefreshControl,
+} from 'react-native';
 import Swipeout from 'react-native-swipeout';
 import AddModal from './AddModal';
 import EditModal from './EditModal';
@@ -13,7 +15,7 @@ export default class DogList extends Component {
     this.state = {
       refreshing: false,
       deletedRowKey: null,
-      dogList: []
+      dogList: [],
     };
     this._handlePress = this._handlePress.bind(this);
     this.addModal = React.createRef();
@@ -26,13 +28,13 @@ export default class DogList extends Component {
 
   refreshFlatList = (activeKey) => {
     this.setState((prevState) => {
-      return {deletedRowKey: activeKey}
+      return {deletedRowKey: activeKey};
     });
     this.refs.flatList.scrollToEnd();
   };
 
   componentDidMount = () => {
-    this.refreshDataFromServer()
+    this.refreshDataFromServer();
   };
 
   onRefresh = () => {
@@ -41,26 +43,24 @@ export default class DogList extends Component {
 
   refreshDataFromServer = () => {
     this.setState({refreshing: true});
-    getDogList()
-      .then((dogList) => {
-        this.setState({
-          dogList: dogList,
-          refreshing: false
-        });
-      })
-      .catch((e) => {
-        this.setState({
-          dogList: [],
-          refreshing: false
-        });
+    getDogList().then((dogList) => {
+      this.setState({
+        dogList: dogList,
+        refreshing: false,
       });
+    }).catch((e) => {
+      this.setState({
+        dogList: [],
+        refreshing: false,
+      });
+    });
   };
 
   render() {
     let touchableHighlightSetting = {
-      style: {marginRight: 10, borderRadius: 16, shadowOpacity: 0.5,},
-      underlayColor: "gray",
-      onPress: this._handlePress
+      style: {marginRight: 10, borderRadius: 16, shadowOpacity: 0.5},
+      underlayColor: 'gray',
+      onPress: this._handlePress,
     };
     return (
       <View style={user.container}>
@@ -68,7 +68,7 @@ export default class DogList extends Component {
           <TouchableHighlight {...touchableHighlightSetting}>
             <Image
               style={{width: 45, height: 45}}
-              source={require("../img/btn-add.png")}
+              source={require('../img/btn-add.png')}
             />
             {/* <Text>
               Add new dog
@@ -86,7 +86,7 @@ export default class DogList extends Component {
                 index={index}
                 parentFlatList={this}
               />
-            )
+            );
           }}
           keyExtractor={(item, index) => index.toString()}
           refreshControl={
@@ -108,19 +108,18 @@ export default class DogList extends Component {
   }
 }
 
-
 export class FlatListItem extends Component {
   constructor(props) {
     super(props);
     this.state = {
       activeRowKey: null,
-      item: {}
-    }
+      item: {},
+    };
   }
 
   refreshFlatListItem = (changedItem) => {
     this.setState({
-      item: changedItem
+      item: changedItem,
     });
   };
 
@@ -128,7 +127,7 @@ export class FlatListItem extends Component {
     const swipeSetting = {
       autoClose: true,
       onClose: (secId, rowId, direction) => {
-        if(this.state.activeRowKey != null) {
+        if (this.state.activeRowKey != null) {
           this.setState({activeRowKey: null});
         }
       },
@@ -138,47 +137,58 @@ export class FlatListItem extends Component {
       right: [
         {
           onPress: () => {
-            let selectedItem = this.state.item.name ? this.state.item : this.props.item;
-            this.props.parentFlatList.editModal.current.showEditModal(selectedItem, this)
+            let selectedItem = this.state.item.name ?
+              this.state.item :
+              this.props.item;
+            this.props.parentFlatList.editModal.current.showEditModal(
+              selectedItem, this);
           },
-          text: '募集', type: 'primary'
+          text: '募集', type: 'primary',
         },
         {
           onPress: () => {
-            let selectedItem = this.state.item.name ? this.state.item : this.props.item;
+            let selectedItem = this.state.item.name ?
+              this.state.item :
+              this.props.item;
             Alert.alert(
               '警報',
               '消去してもよろしいですか?',
               [
-                {text: 'いいえ', onPress: () => console.log("Cancel Pressed"), style: 'cancel'},
-                {text: 'はい', onPress: () => {
-                  deleteADog({dog_id: selectedItem._id}).then((result) => {
-                    if (result === "ok") {
-                      console.log(result);
-                      this.props.parentFlatList.refreshDataFromServer();
-                    } else if (result === "failed") {
-                      console.log("Insert Failed!");
-                    }
-                  })}
-                }
+                {
+                  text: 'いいえ',
+                  onPress: () => console.log('Cancel Pressed'),
+                  style: 'cancel',
+                },
+                {
+                  text: 'はい', onPress: () => {
+                    deleteADog({dog_id: selectedItem._id}).then((result) => {
+                      if (result === 'ok') {
+                        console.log(result);
+                        this.props.parentFlatList.refreshDataFromServer();
+                      } else if (result === 'failed') {
+                        console.log('Insert Failed!');
+                      }
+                    });
+                  },
+                },
               ],
-              {cancelable: false}
+              {cancelable: false},
             );
-        },
-          text: '削除', type: 'delete'
-      }],
+          },
+          text: '削除', type: 'delete',
+        }],
       rowId: this.props.index,
-      sectionID: 1
+      sectionID: 1,
     };
-    return(
+    return (
       <Swipeout {...swipeSetting}>
         <View style={{flexDirection: 'column', flex: 1}}>
           <View
             style={{
               flex: 1,
-              flexDirection: "row",
-              backgroundColor: "rgba(255,255,255,0.1)",
-              borderColor: "transparent",
+              flexDirection: 'row',
+              backgroundColor: 'rgba(255,255,255,0.1)',
+              borderColor: 'transparent',
               borderWidth: 0,
               borderRadius: 5,
               shadowOpacity: 0.5,
@@ -189,16 +199,21 @@ export class FlatListItem extends Component {
               style={{width: 100, height: 100, margin: 5}}
             />
 
-            <ScrollView style={user.flatItem} >
-              <Text style={user.dogName} children={this.state.item.name ? this.state.item.name : this.props.item.name}/>
-              <Text style={user.flastListItem} children={this.state.item.dogDescription ? this.state.item.dogDescription : this.props.item.dogDescription}/>
+            <ScrollView style={user.flatItem}>
+              <Text style={user.dogName} children={this.state.item.name ?
+                this.state.item.name :
+                this.props.item.name}/>
+              <Text style={user.flastListItem}
+                    children={this.state.item.dogDescription ?
+                      this.state.item.dogDescription :
+                      this.props.item.dogDescription}/>
             </ScrollView>
           </View>
 
-          <View style={{height: 2, backgroundColor: "white"}} />
+          <View style={{height: 2, backgroundColor: 'white'}}/>
         </View>
       </Swipeout>
-    )
+    );
   }
 }
 
@@ -211,27 +226,27 @@ const user = StyleSheet.create({
   },
   text: {
     fontSize: 30,
-    marginBottom: 30
+    marginBottom: 30,
   },
   flatList: {
     flex: 1,
   },
   flastListItem: {
-    color: "black",
+    color: 'black',
     padding: 10,
     fontSize: 15,
-    alignItems: "stretch",
+    alignItems: 'stretch',
   },
   dogName: {
-    color: "black",
+    color: 'black',
     padding: 10,
     fontSize: 15,
-    alignItems: "stretch",
-    fontWeight: 'bold'
+    alignItems: 'stretch',
+    fontWeight: 'bold',
   },
   flatItem: {
     flex: 1,
-    flexDirection: "column",
+    flexDirection: 'column',
     height: 100,
   },
   list: {
@@ -239,6 +254,6 @@ const user = StyleSheet.create({
     height: 54,
     flexDirection: 'row',
     justifyContent: 'flex-end',
-    alignItems: 'center'
-  }
+    alignItems: 'center',
+  },
 });
